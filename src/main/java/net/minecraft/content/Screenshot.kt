@@ -3,22 +3,18 @@ package net.minecraft.content
 import java.util.Locale
 
 /**
- * Represents a screenshot URL with a title derived from the filename.
+ * Represents a screenshot URL with localized headlines.
  */
-data class Screenshot(val url: String) {
+data class Screenshot(
+    val url: String,
+    val headlines: Map<String, String>
+) {
     /**
-     * Title generated from the filename with the first letter of each word capitalized.
+     * Returns the headline for the given [locale], falling back to the language code.
      */
-    val title: String
-        get() {
-            val name = url.substringAfterLast('/')
-                .substringBeforeLast('.')
-            return name.split('-', '_')
-                .filter { it.isNotEmpty() }
-                .joinToString(" ") { part ->
-                    part.replaceFirstChar {
-                        if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString()
-                    }
-                }
-        }
+    fun headlineFor(locale: Locale): String? {
+        val tag = locale.toLanguageTag()
+        return headlines[tag] ?: headlines[locale.language]
+    }
 }
+
