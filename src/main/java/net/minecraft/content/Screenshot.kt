@@ -14,7 +14,7 @@ data class Screenshot(
      */
     fun headlineFor(locale: Locale): String? {
         val tag = locale.toLanguageTag()
-        return headlines[tag] ?: headlines[locale.language]
+        return headlines[tag] ?: headlines[locale.language] ?: headlines["en"]
     }
 }
 

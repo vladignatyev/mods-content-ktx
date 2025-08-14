@@ -41,7 +41,7 @@ data class Mod(
      */
     fun tagsFor(locale: Locale): String? {
         val tag = locale.toLanguageTag()
-        return tags[tag] ?: tags[locale.language]
+        return tags[tag] ?: tags[locale.language] ?: tags["en"]
     }
 }
 
