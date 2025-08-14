@@ -13,7 +13,7 @@ data class Mod(
     val author: Author,
     val screenshots: List<Screenshot>,
     val downloads: List<Download>,
-    val tags: Map<String, String>,
+    val tags: String,
     @SerializedName("related_owned_videos")
     val relatedOwnedVideos: List<OwnedVideo> = emptyList(),
     @SerializedName("related_external_videos")
@@ -36,12 +36,5 @@ data class Mod(
         return description[tag] ?: description[locale.language]
     }
 
-    /**
-     * Returns the tags string for the given [locale].
-     */
-    fun tagsFor(locale: Locale): String? {
-        val tag = locale.toLanguageTag()
-        return tags[tag] ?: tags[locale.language] ?: tags["en"]
-    }
 }
 
