@@ -10,6 +10,7 @@ data class Mod(
     val id: String,
     val labels: Map<String, String>,
     val description: Map<String, String>,
+    val instructions: Map<String, String>? = null,
     val author: Author,
     val screenshots: List<Screenshot>,
     val downloads: List<Download>,
@@ -34,6 +35,14 @@ data class Mod(
     fun descriptionFor(locale: Locale): String? {
         val tag = locale.toLanguageTag()
         return description[tag] ?: description[locale.language]
+    }
+
+    /**
+     * Returns the instructions for the given [locale].
+     */
+    fun instructionsFor(locale: Locale): String? {
+        val tag = locale.toLanguageTag()
+        return instructions?.get(tag) ?: instructions?.get(locale.language)
     }
 
 }
