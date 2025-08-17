@@ -13,17 +13,21 @@ object ModService {
 
     /**
      * Downloads the JSON list from the given [url] and parses it into
-     * a list of [Mod] objects.
+     * a [ModList].
      */
     @Throws(Exception::class)
-    fun load(url: String): List<Mod> {
+    fun load(url: String): ModList {
         val connection = URL(url).openConnection() as HttpURLConnection
         connection.requestMethod = "GET"
-        connection.connect()
-        connection.inputStream.bufferedReader().use { reader ->
-            val json = reader.readText()
-            val type = object : TypeToken<List<Mod>>() {}.type
-            return gson.fromJson(json, type)
+        return try {
+            connection.connect()
+            connection.inputStream.bufferedReader().use { reader ->
+                val json = reader.readText()
+                val type = object : TypeToken<ModList>() {}.type
+                gson.fromJson(json, type)
+            }
+        } finally {
+            connection.disconnect()
         }
     }
 }
